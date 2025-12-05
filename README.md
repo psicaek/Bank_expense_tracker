@@ -12,3 +12,4 @@ A program that tracks my expenses every month. this program is made for ING bank
         4 if we have 200 responce we will have the access token which with it we can access all the information from our bank account 
 
 First try to use the sandbox account to check if your implementation is working.
+*if someone downloads the repo he needs to create a .env file where he must add his Client Id ,Client Secret and the Redirect Url*
