@@ -1,5 +1,7 @@
 import requests
+
 from config import DATA_URL
+
 
 def get_accounts(access_token):
     headers = {"Authorization": f"Bearer {access_token}"}

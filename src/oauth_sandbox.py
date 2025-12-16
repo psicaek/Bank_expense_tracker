@@ -1,11 +1,10 @@
-
 import requests
+import webbrowser
 import http.server
 import socketserver
 import threading
 import urllib.parse
-from urllib.parse import urlparse, parse_qs
-from config import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, AUTH_URL, TOKEN_URL, REVOLUT,AUTH_URL_SANDBOX , ING
+from config import CLIENT_ID_SANDBOX, CLIENT_SECRET, REDIRECT_URI_SANDBOX, AUTH_URL_SANDBOX, TOKEN_URL_SANDBOX
 import time
 auth_code = None
 
@@ -15,6 +14,7 @@ class CallbackHandler(http.server.SimpleHTTPRequestHandler):
         global auth_code
         parsed = urllib.parse.urlparse(self.path)
         params = urllib.parse.parse_qs(parsed.query)
+
         if parsed.path == "/callback":
             auth_code = params.get("code", [None])[0]
 
@@ -29,37 +29,22 @@ def start_callback_server():
         httpd.handle_request()
 
 
-
-def get_url():
-    print("Client ID:", CLIENT_ID)
-    print("Client secret:", CLIENT_SECRET)
-    oauth_url = (
-        f"{AUTH_URL}?response_type=code"
-        f"&client_id={CLIENT_ID}"
-        "&scope=info%20accounts%20balance%20cards%20transactions%20direct_debits%20standing_orders%20offline_access"
-        f"&redirect_uri={REDIRECT_URI}"
-        "&providers=de-ob-all%20de-oauth-all"
-        f"{ING}"
-    )
-    print("OAuth URL:", oauth_url)
-    return oauth_url
-
-def get_access_token(driver):
-    time.sleep(5)
-    current_url = driver.current_url
-    print("Current URL:", current_url)
-    driver.quit()
-
-    parsed_url = urlparse(current_url)
-    code = parse_qs(parsed_url.query).get("code", [None])[0]
-    print("Code:", code)
-    return code
-
-def get_access():
+def get_access_token():
     global auth_code
-
+    print("Client ID:", CLIENT_ID_SANDBOX)
+    print("Client secret:", CLIENT_SECRET)
     thread = threading.Thread(target=start_callback_server, daemon=True)
     thread.start()
+
+    oauth_url = (
+        f"{AUTH_URL_SANDBOX}?response_type=code"
+        f"&client_id={CLIENT_ID_SANDBOX}"
+        "&scope=info%20accounts%20balance%20cards%20transactions%20direct_debits%20standing_orders%20offline_access"
+        f"&redirect_uri={REDIRECT_URI_SANDBOX}"
+        "&providers=uk-cs-mock%20uk-ob-all%20uk-oauth-all"
+    )
+
+    webbrowser.open(oauth_url)
 
 
     print("Waiting for authorization code...")
@@ -69,18 +54,19 @@ def get_access():
 
     payload = {
         "grant_type": "authorization_code",
-        "client_id": CLIENT_ID,
+        "client_id": CLIENT_ID_SANDBOX,
         "client_secret": CLIENT_SECRET,
-        "redirect_uri": REDIRECT_URI,
+        "redirect_uri": REDIRECT_URI_SANDBOX,
         "code": auth_code,
     }
 
 
     print("Requesting access token...")
-    token_url = f"{TOKEN_URL}?response_type=code"
+    token_url = f"{TOKEN_URL_SANDBOX}?response_type=code"
     print("Access Token URL:", token_url)
     response = requests.post(token_url, json=payload)
     tokens = response.json()
+    print("Access Token:", tokens)
 
     if "access_token" not in tokens:
         raise Exception(f"Token error: {tokens}")

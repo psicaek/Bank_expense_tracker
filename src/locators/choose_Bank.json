@@ -1,0 +1,10 @@
+{
+  "bank_option_ing": {
+    "type": "xpath",
+    "value": "//div[text()='ING']"
+  },
+  "click_allow" :{
+    "type": "xpath",
+    "value": "//a[normalize-space()='Allow']\n"
+  }
+}

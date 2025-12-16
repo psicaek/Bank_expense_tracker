@@ -4,3 +4,6 @@ fastapi
 uvicorn
 requests
 python-dotenv
+selenium
+selenium-webdriver-extender
+chromedriver-binary==143.0.7499.42
