@@ -53,8 +53,6 @@ class browser_control:
                 locator_value = f'[data -test-id="{locator_value}"]'
 
             element = self.wait.until(EC.visibility_of_element_located((by_type[locator_type],locator_value)))
-            #element = self.wait.until(EC.presence_of_element_located((by_type[locator_type], locator_value)))
-            print("element found in the locator founder")
             return element
 
     def check_element(self, page, locator_name, timeout = 5, value=None):
@@ -66,10 +64,11 @@ class browser_control:
             try:
                 element = self.find_element(locator_type, locator_value, timeout)
                 if element and element.is_displayed():
-                    print("element found")
+                    #Element Present
+                    pass
             except TimeoutException:
                 #Element not present
-                print("element not found")
+
                 pass
             time.sleep(0.5)
 

@@ -3,8 +3,6 @@ import requests
 import http.server
 import socketserver
 import threading
-from urllib.parse import urlencode
-import urllib.parse
 from urllib.parse import urlparse, parse_qs
 from config import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, AUTH_URL, TOKEN_URL, REVOLUT,AUTH_URL_SANDBOX , ING
 import time
@@ -83,11 +81,9 @@ def get_access():
 
     print("Requesting access token...")
     token_url = f"{TOKEN_URL}?response_type=code"
-    token_url_with_params = f"{TOKEN_URL}?{urlencode(payload)}"
-    print("Access Token URL:", token_url_with_params)
+
     response = requests.post(token_url, json=payload, headers=headers)
     tokens = response.json()
-    print("response:", response.text)
 
     if "access_token" not in tokens:
         raise Exception(f"Token error: {tokens}")

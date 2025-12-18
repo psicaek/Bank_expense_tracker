@@ -13,5 +13,4 @@ def get_accounts(access_token):
     print(response.status_code)
     print(response.text)
     account_id = response.json()["results"][0]["account_id"]
-    print(account_id)
     return response.json(),account_id

@@ -1,6 +1,4 @@
 import time
-
-from selenium.webdriver.support.wait import WebDriverWait
 from config import *
 from browser_control import browser_control
 from oauth import get_code,get_access
@@ -32,7 +30,7 @@ def main():
     print("\nFetching Transactions...")
     transactions = get_transactions(access_token, account_id)
     print(transactions)
-    print(transactions)
+
 
 
 if __name__ == "__main__":
