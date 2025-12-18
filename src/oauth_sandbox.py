@@ -4,8 +4,11 @@ import http.server
 import socketserver
 import threading
 import urllib.parse
-from config import CLIENT_ID_SANDBOX, CLIENT_SECRET, REDIRECT_URI_SANDBOX, AUTH_URL_SANDBOX, TOKEN_URL_SANDBOX
+from config import CLIENT_ID_SANDBOX, CLIENT_SECRET_SANDBOX, REDIRECT_URI_SANDBOX, AUTH_URL_SANDBOX, TOKEN_URL_SANDBOX
 import time
+
+
+
 auth_code = None
 
 
@@ -32,7 +35,7 @@ def start_callback_server():
 def get_access_token():
     global auth_code
     print("Client ID:", CLIENT_ID_SANDBOX)
-    print("Client secret:", CLIENT_SECRET)
+    print("Client secret:", CLIENT_SECRET_SANDBOX)
     thread = threading.Thread(target=start_callback_server, daemon=True)
     thread.start()
 
@@ -55,7 +58,7 @@ def get_access_token():
     payload = {
         "grant_type": "authorization_code",
         "client_id": CLIENT_ID_SANDBOX,
-        "client_secret": CLIENT_SECRET,
+        "client_secret": CLIENT_SECRET_SANDBOX,
         "redirect_uri": REDIRECT_URI_SANDBOX,
         "code": auth_code,
     }

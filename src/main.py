@@ -1,13 +1,12 @@
 import time
 
 from selenium.webdriver.support.wait import WebDriverWait
-from config import page,allow_button,ing_option
+from config import *
 from browser_control import browser_control
-from oauth import get_access_token
+from oauth import get_code,get_access
 from oauth import get_url
-from transactions_sandbox import get_transactions
-from accounts_sandbox import get_accounts
-
+from transactions import get_transactions
+from accounts import get_accounts
 
 
 
@@ -18,20 +17,21 @@ def main():
     browser = browser_control()
     url = get_url()
     driver = browser.create_driver(url)
-    time.sleep(2.5)
-    browser.click_element(page, ing_option, timeout= 10,value=None)
-    time.sleep(2.5)
-    browser.click_element(page, allow_button, timeout= 10,value=None)
-    time.sleep(2.5)
-    access_token = get_access_token(driver)
+    time.sleep(1)
+    browser.click_element(page, ing_option, timeout= 1,value=None)
+    time.sleep(1)
+    browser.click_element(page, allow_button, timeout= 1,value=None)
+    time.sleep(30)
+    get_code(driver)
+    access_token = get_access()
     print("\n[OK] Access token received\n")
-
     print("Fetching Accounts...")
-    accounts = get_accounts(access_token)
+    accounts,account_id = get_accounts(access_token)
     print(accounts)
 
     print("\nFetching Transactions...")
-    transactions = get_transactions(access_token)
+    transactions = get_transactions(access_token, account_id)
+    print(transactions)
     print(transactions)
 
 

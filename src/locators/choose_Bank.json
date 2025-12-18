@@ -6,5 +6,17 @@
   "click_allow" :{
     "type": "xpath",
     "value": "//a[normalize-space()='Allow']\n"
+  },
+  "ing_username" :{
+    "type": "name",
+    "value": "view:alias:alias"
+  },
+  "ing_password" :{
+    "type": "name",
+    "value": "view:secret:secret"
+  },
+  "login_button" :{
+    "type": "xpath",
+    "value": "//button[normalize-space()='Anmelden']"
   }
 }

@@ -1,9 +1,17 @@
 import requests
 
-from config import DATA_URL
+from config import LIST_ACCOUNTS_URL
 
 
 def get_accounts(access_token):
-    headers = {"Authorization": f"Bearer {access_token}"}
-    url = f"{DATA_URL}"
-    return requests.get(url, headers=headers).json()
+    url = LIST_ACCOUNTS_URL
+    headers = {
+        "accept": "application/json",
+        "authorization": f"Bearer {access_token}"
+    }
+    response = requests.get(url, headers=headers)
+    print(response.status_code)
+    print(response.text)
+    account_id = response.json()["results"][0]["account_id"]
+    print(account_id)
+    return response.json(),account_id
